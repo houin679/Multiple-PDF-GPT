@@ -5,7 +5,7 @@ css = '''
 }
 .chat-message.user {
     background-color: #2b313e
-}d
+}
 .chat-message.bot {
     background-color: #475063
 }
