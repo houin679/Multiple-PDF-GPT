@@ -1,0 +1,79 @@
+Workflow: Chatbot with Document Embedding and User Query Processing
+Step 1: Document Upload & Preprocessing
+User Uploads Documents:
+
+The user uploads one or more PDF documents via the UI (e.g., using file_uploader in Streamlit).
+The uploaded PDFs are then processed to extract the text content from them.
+Extract Text from PDFs:
+
+The text is extracted from each page of the PDFs using a library like PyPDF2.
+This is done by iterating over each page and collecting the text into a single string.
+Text Chunking:
+
+The extracted text is split into smaller, manageable chunks for better processing and faster retrieval.
+Text is divided based on a predefined character length (e.g., 1000 characters) using a text splitter.
+These chunks represent sections of the document that will be embedded and stored for later retrieval.
+Step 2: Embedding Documents
+Embedding the Text Chunks:
+
+The chunks of text are passed through an embedding model (like HuggingFaceInstructEmbeddings).
+This model converts each text chunk into a vector (embedding), which is a numerical representation that captures the meaning of the text.
+These document embeddings are stored in a vector store (e.g., FAISS) for efficient similarity search.
+Key Concept:
+
+The text is transformed into a high-dimensional vector space where each document chunk's semantic meaning is represented as a vector.
+Storing the Embeddings:
+
+The embeddings are saved in the vector store (FAISS), which is optimized for fast similarity search.
+The vector store can be queried later to find the most relevant document chunks based on similarity to the user query.
+Step 3: User Query Processing
+User Asks a Question:
+
+The user enters a question into the UI (e.g., using text_input in Streamlit).
+This query is in the form of natural language and needs to be processed for matching with document chunks.
+Embedding the User Query:
+
+The user's query is passed through the same pre-trained embedding model (e.g., HuggingFaceInstructEmbeddings).
+The model converts the query into an embedding (vector), similar to the document chunk embeddings.
+The goal is to capture the meaning of the user's question in a way that can be compared with the document embeddings.
+Step 4: Query-Document Matching
+Similarity Search in Vector Store:
+
+The query embedding is compared with the document embeddings stored in the vector store.
+Cosine similarity or another distance metric is used to measure the proximity between the query vector and the document chunk vectors.
+The system retrieves the most similar document chunks based on the highest similarity score.
+Retrieve Relevant Chunks:
+
+The top N (e.g., 5 or 10) most similar document chunks are retrieved based on their similarity to the user query.
+These document chunks are the most relevant content to the user’s question.
+Step 5: Response Generation
+Processing the Retrieved Chunks:
+
+The retrieved document chunks are then processed. Depending on the implementation, these could be directly returned to the user as a response or passed through a natural language generation model (if needed) for more refined answers.
+Returning the Response:
+
+The system generates and displays the answer to the user based on the information from the most relevant document chunks.
+The response is shown in the UI, allowing the user to see the results derived from the documents.
+Step 6: Continuous Interaction (Optional)
+User Refines the Query:
+
+The user may ask follow-up questions or refine their query, restarting the process by entering a new question.
+The system continues to process the query using the steps above to provide further answers.
+Repeat the Process:
+
+This process repeats as needed with each new user query. The text chunk embeddings and the pre-trained model embeddings are reused across queries, optimizing the system’s performance.
+Overall Workflow Visualization:
+Document Upload: User uploads PDFs → Text extraction from PDFs.
+Text Chunking: Split extracted text into chunks for processing.
+Document Embedding: Embed each text chunk using a pre-trained model.
+Storing Embeddings: Store the document embeddings in a vector store (e.g., FAISS).
+User Query: User inputs a query.
+Query Embedding: Embed the user's query using the same pre-trained model.
+Search & Retrieval: Perform similarity search between query embedding and document embeddings in the vector store.
+Response Generation: Retrieve relevant chunks, generate and display a response.
+Repeat: User asks more questions or refines their queries.
+Summary of Key Concepts:
+Embeddings: Both document chunks and user queries are transformed into vectors (embeddings) using a pre-trained model.
+Vector Store: Embeddings are stored in a vector store (FAISS) for efficient similarity search.
+Similarity Search: User queries are compared to document embeddings using similarity metrics like cosine similarity.
+Natural Language Processing: The system uses pre-trained models for embedding both document text and user queries to facilitate understanding and matching.
